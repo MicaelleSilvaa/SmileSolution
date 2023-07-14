@@ -3,6 +3,8 @@ import customtkinter
 from tkinter import PhotoImage
 from tkinter import ttk, font
 from tkinter import messagebox
+from caixa import Banco
+
 
 class ModeloTelaPrincipal():
     def __init__(self, janela):
@@ -11,14 +13,12 @@ class ModeloTelaPrincipal():
         self.janela.geometry('1000x600+450+100')
         self.janela.configure(bg='#173561')
         self.janela['bg'] = '#173561'
-        
-        
+
         self.img = PhotoImage(file='imagens/01.png')
         self.img_reduzida = self.img.subsample(5, 5)  # Reduzindo o tamanho da imagem pela metade
         self.label_imagem = tk.Label(self.janela, image=self.img_reduzida, borderwidth=0)
         self.label_imagem.place(x=460, y=0)
-        
-        
+
         self.label_clinica = customtkinter.CTkLabel(self.janela, text='SmileSolution', font=('Roboto', 40, 'bold'), text_color='#FFFFFF', fg_color='#173561')
         self.label_clinica.place(x=100, y=70)
         
@@ -51,30 +51,9 @@ class ModeloTelaPrincipal():
         self.janela.withdraw()  # Oculta a janela principal
         nova_janela1 = tk.Toplevel(self.janela)
         tela_login_recep = TelaLoginRecep(nova_janela1)
-             
-       
-    '''def imagem(self):
-        self.img = PhotoImage(file='imagens/01.png')
-        self.img_reduzida = self.img.subsample(5, 5)  # Reduzindo o tamanho da imagem pela metade
-        self.label_imagem = tk.Label(self.janela, image=self.img_reduzida, borderwidth=0)
-        self.label_imagem.place(x=460, y=0)
-        
-        ARRUMAR ESSAS FUNÇÕES DEPOIS
-    
-    def nome(self):
-        self.label_clinica = customtkinter.CTkLabel(self.janela, text='SmileSolution', font=('Roboto', 40, 'bold'), text_color='#FFFFFF', fg_color='#173561')
-        self.label_clinica.place(x=100, y=70)
-        
-        self.label_slogan = customtkinter.CTkLabel(self.janela, text='Seu sorriso, nossa paixão!', font=('Roboto', 20), text_color='#FFFFFF', fg_color='#173561')
-        self.label_slogan.place(x=115, y=110)
-        
-        self.label_titulo = customtkinter.CTkLabel(self.janela, text='Bem-vindo!', font=('Roboto', 30, 'bold'), text_color='#FFFFFF', fg_color='#173561')
-        self.label_titulo.place(x=150, y=200)
-        
-        self.label_criado = customtkinter.CTkLabel(self.janela, text='Desenvolvido por Micaelle Silva ©', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
-        self.label_criado.place(x=120, y=570)'''
-        
 
+            
+       
         
 #----------------------------------TELA ADMIN--------------------------------------------------
 
@@ -163,11 +142,17 @@ class TelaLoginRecep():
         self.caixa_senha_recep.place(x=150, y=350)
         
         self.botao_entrarRecep = customtkinter.CTkButton(self.janela1,text='Entrar', font=('Roboto', 12, 'bold', ),
-                                                         text_color='#173561', fg_color='#FFFFFF')
+                                                         text_color='#173561', fg_color='#FFFFFF', command=self.telaacessoRecep)
         self.botao_entrarRecep.place(x=150,y=400)
+        
               
         self.label_criado = customtkinter.CTkLabel(self.janela1, text='Desenvolvido por Micaelle Silva ©', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
         self.label_criado.place(x=120, y=570)
+
+    def telaacessoRecep(self):
+        self.janela1.withdraw()  # Oculta a janela principal
+        nova_janela2 = tk.Toplevel(self.janela1)
+        tela_acesso_recep = TelaAcessoRecep(nova_janela2)
 
         # Resto do código para construir a nova janela de login admin...
 
@@ -191,9 +176,80 @@ class TelaAcessoRecep():
         
         self.janela2.protocol("WM_DELETE_WINDOW", self.voltar_tela_principal)  # Define a ação ao fechar a janela
 
+#----------------------------DADOS DO CLIENTE------------------------------------------------------------------
+
+        #self.criar_tabela()
+
+        self.label_cadastro = customtkinter.CTkLabel(self.janela2, text='Cadastro de paciente', font=('Roboto', 20, 'bold'), text_color='#FFFFFF', fg_color='#173561')
+        self.label_cadastro.place(x=120, y=60)
+
+        self.cliente = customtkinter.CTkLabel(self.janela2, text='Nome', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
+        self.cliente.place(x=80, y=120)
+
+        self.caixa_cliente = customtkinter.CTkEntry(self.janela2, placeholder_text='Digite o nome', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
+        self.caixa_cliente.place(x=80, y=150)
+
+        self.cpf = customtkinter.CTkLabel(self.janela2, text='CPF', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
+        self.cpf.place(x=80, y=190)
+
+        self.caixa_cpf = customtkinter.CTkEntry(self.janela2, placeholder_text='Digite o CPF', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
+        self.caixa_cpf.place(x=80, y=220)
+
+        self.endereco = customtkinter.CTkLabel(self.janela2, text='Endereço', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
+        self.endereco.place(x=240, y=120)
+
+        self.caixa_endereco = customtkinter.CTkEntry(self.janela2, placeholder_text='Digite o endereço', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
+        self.caixa_endereco.place(x=240, y=150)
+
+        self.contato = customtkinter.CTkLabel(self.janela2, text='Contato', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
+        self.contato.place(x=240, y=190)
+
+        self.caixa_contato = customtkinter.CTkEntry(self.janela2, placeholder_text='Digite o contato', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
+        self.caixa_contato.place(x=240, y=220)
+
+        
+        self.label_criado = customtkinter.CTkLabel(self.janela1, text='Desenvolvido por Micaelle Silva ©', font=('Roboto', 15), text_color='#FFFFFF', fg_color='#173561')
+        self.label_criado.place(x=120, y=570)
+
+#-----------------------------------BOTÕES---------------------------------
+        self.botao_cadastrar = customtkinter.CTkButton(self.janela2, text='Cadastrar', font=('Roboto', 12, 'bold'), text_color='#173561', fg_color='FFFFFF',   )
+
+
     def voltar_tela_principal(self):
         self.janela2.destroy()  # Destroi a janela de login admin
         objeto.janela.deiconify()  # Exibe novamente a janela principal   
+
+#---------------------------------------FUNÇÕES-------------------------------------------
+#ARRUMAR BANCO DEPOIS
+    def cadastrar(self):
+        self.capturar_cliente = self.caixa_cliente.get()
+        self.capturar_cpf = self.caixa_cpf.get()
+        self.capturar_endereco = self.caixa_endereco.get()
+        self.capturar_contato = self.caixa_endereco.get()
+
+        self.conecta_banco()
+        self.sql.execute('''INSERT INTO pacientes (nome, cpf, endereco, contato) values (?,?,?,?)''',
+                        (self.capturar_cliente, self.capturar_cpf, self.capturar_endereco, self.capturar_contato))
+        
+
+
+        try:
+            if self.capturar_cliente == '' or self.capturar_cpf == '' or self.capturar_endereco == '' or self.capturar_contato == '':
+                messagebox.showerror('Sistema de cadastro', 'Preencha todos os campos!')
+            else:
+                self.conexao.commit()
+                messagebox.showinfo('Cadastro', f'Parabéns! Dados Salvos!')
+                self.desconecta_banco()
+
+                
+        except:
+            messagebox.showerror('Cadastro', 'Erro no processamento do seu cadastro.')
+            self.desconecta_banco()
+        self.desconecta_banco()
+
+
+
+
 
 windows = tk.Tk()
 objeto = ModeloTelaPrincipal(windows)
